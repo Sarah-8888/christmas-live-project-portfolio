@@ -9,6 +9,8 @@
     />
     <meta name="theme-color" content="#f7f4ee" />
     <title>圣诞直播项目｜小茹的项目管理作品集</title>
+    <link rel="preload" as="image" href="./wbs.webp" type="image/webp" />
+    <link rel="preload" as="image" href="./gantt.webp" type="image/webp" />
     <style>
 :root {
   --paper: #f7f4ee;
@@ -89,6 +91,19 @@ ol {
 
 [hidden] {
   display: none !important;
+}
+
+.motion-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+}
+
+.motion-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .page-shell {
@@ -1306,6 +1321,7 @@ ol {
   cursor: pointer;
   font-size: 10px;
   font-weight: 800;
+  transition: color 160ms ease, background 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 
 .risk-token:hover,
@@ -1313,6 +1329,10 @@ ol {
   border-color: var(--emerald-strong);
   color: #fff;
   background: var(--emerald-strong);
+}
+
+.risk-token:active {
+  transform: scale(0.94);
 }
 
 .risk-badge.high {
@@ -1330,9 +1350,87 @@ ol {
   border-left-color: var(--coral);
 }
 
-.risk-detail .detail-section + .detail-section {
-  margin-top: 9px;
-  border-left-color: var(--emerald);
+.risk-detail-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.risk-status {
+  color: var(--emerald-strong);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.risk-description {
+  margin-top: 10px;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+.risk-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.risk-meta-grid > div {
+  min-width: 0;
+  padding: 10px 12px;
+}
+
+.risk-meta-grid > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.risk-meta-grid span,
+.risk-meta-grid strong {
+  display: block;
+}
+
+.risk-meta-grid span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.risk-meta-grid strong {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+.risk-response {
+  background: #f8f6f0;
+}
+
+.risk-response ol {
+  margin: 9px 0 0;
+  padding-left: 20px;
+}
+
+.risk-response li {
+  padding-left: 3px;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.risk-response li + li {
+  margin-top: 5px;
+}
+
+.risk-strategy-lead {
+  margin-top: 8px;
+  color: var(--emerald-strong);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.75;
+}
+
+.risk-detail.is-updated {
+  animation: detail-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .matrix-note {
@@ -1395,6 +1493,16 @@ ol {
   width: var(--bar);
   height: 100%;
   background: var(--blue);
+}
+
+.result-story.motion-reveal article > i::after {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.result-story.motion-reveal.is-visible article > i::after {
+  transform: scaleX(1);
+  transition: transform 820ms cubic-bezier(0.22, 1, 0.36, 1) 180ms;
 }
 
 .result-story .result-highlight {
@@ -1657,6 +1765,34 @@ ol {
 .site-footer a {
   color: var(--emerald);
   font-weight: 700;
+}
+
+@keyframes detail-in {
+  from {
+    opacity: 0.35;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (hover: hover) {
+  .document-viewer,
+  .deliverable-tool,
+  .stakeholder-tool,
+  .risk-workspace {
+    transition: box-shadow 220ms ease, transform 220ms ease;
+  }
+
+  .document-viewer:hover,
+  .deliverable-tool:hover,
+  .stakeholder-tool:hover,
+  .risk-workspace:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 42px rgba(40, 57, 48, 0.11);
+  }
 }
 
 @media (max-width: 980px) {
@@ -2252,6 +2388,28 @@ ol {
     font-size: 18px;
   }
 
+  .risk-description {
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .risk-meta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .risk-meta-grid > div:nth-child(3) {
+    border-left: 0;
+  }
+
+  .risk-meta-grid > div:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .risk-response li,
+  .risk-strategy-lead {
+    font-size: 12px;
+  }
+
   .detail-grid {
     grid-template-columns: 1fr;
     gap: 8px;
@@ -2544,7 +2702,7 @@ ol {
               <button class="icon-button" type="button" data-viewer-action="in" aria-label="放大" title="放大"><span data-icon="zoom-in"></span></button>
               <button class="icon-button" type="button" data-viewer-action="reset" aria-label="恢复原始比例" title="恢复原始比例"><span data-icon="maximize-2"></span></button>
             </div></div>
-            <div class="document-canvas"><img src="./wbs-preview.webp" data-src="./wbs.webp" alt="圣诞直播项目 WBS，包含五个阶段和三十四个工作包" width="3200" height="1475" decoding="async" /></div>
+            <div class="document-canvas"><img src="./wbs.webp" alt="圣诞直播项目 WBS，包含五个阶段和三十四个工作包" width="3200" height="1475" loading="eager" fetchpriority="high" decoding="async" /></div>
           </figure>
         </div>
       </section>
@@ -2591,7 +2749,7 @@ ol {
                 <button class="icon-button" type="button" data-viewer-action="in" aria-label="放大" title="放大"><span data-icon="zoom-in"></span></button>
                 <button class="icon-button" type="button" data-viewer-action="reset" aria-label="恢复原始比例" title="恢复原始比例"><span data-icon="maximize-2"></span></button>
               </div></div>
-              <div class="document-canvas"><img src="./gantt-preview.webp" data-src="./gantt.webp" alt="包含 37 项任务、负责人、计划日期与实际完成日期的项目甘特图" width="3200" height="2264" decoding="async" /></div>
+              <div class="document-canvas"><img src="./gantt.webp" alt="包含 37 项任务、负责人、计划日期与实际完成日期的项目甘特图" width="3200" height="2264" loading="eager" fetchpriority="high" decoding="async" /></div>
             </figure>
             <div class="variance-strip"><b>偏差记录</b><span>预热视频拍剪晚 1 天完成</span><span>货品质检与备货锁库晚 1 天完成</span><strong>均未影响 12.24 直播执行</strong></div>
           </div>
@@ -2640,7 +2798,7 @@ ol {
             </div>
             <article class="risk-detail" id="risk-detail" aria-live="polite"></article>
           </div>
-          <p class="matrix-note">为提高移动端可读性，矩阵聚焦中、高区间；原始概率等级保留在风险详情中。</p>
+          <p class="matrix-note">选择风险编号可查看登记册中的完整描述与应对策略；矩阵聚焦中、高区间，原始概率等级保留在详情中。</p>
         </div>
       </section>
 
@@ -2851,35 +3009,6 @@ function hydrateIcons(root = document) {
 
 hydrateIcons();
 
-const deferredImages = [...document.querySelectorAll("img[data-src]")];
-function loadDeferredImage(image) {
-  if (!image.dataset.src) return;
-  const fullSrc = image.dataset.src;
-  const fullImage = new Image();
-  fullImage.decoding = "async";
-  fullImage.addEventListener("load", () => {
-    image.src = fullSrc;
-    image.removeAttribute("data-src");
-  }, { once: true });
-  fullImage.src = fullSrc;
-}
-
-if ("IntersectionObserver" in window) {
-  const imageObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        loadDeferredImage(entry.target);
-        observer.unobserve(entry.target);
-      });
-    },
-    { rootMargin: "1200px 0px" },
-  );
-  deferredImages.forEach((image) => imageObserver.observe(image));
-} else {
-  deferredImages.forEach(loadDeferredImage);
-}
-
 const siteHeader = document.getElementById("site-header");
 const progress = document.getElementById("reading-progress");
 const menuButton = document.getElementById("mobile-menu-button");
@@ -2897,6 +3026,45 @@ function updateScrollUI() {
 
 updateScrollUI();
 window.addEventListener("scroll", updateScrollUI, { passive: true });
+
+const revealItems = [...document.querySelectorAll([
+  ".hero-copy",
+  ".hero-results",
+  ".section-heading",
+  ".charter-layout",
+  ".milestone-block",
+  ".phase-index",
+  ".document-viewer",
+  ".deliverable-headline",
+  ".deliverable-tool",
+  ".gantt-summary",
+  ".gantt-toolbar",
+  ".variance-strip",
+  ".stakeholder-overview",
+  ".stakeholder-tool",
+  ".risk-stats",
+  ".risk-workspace",
+  ".result-story",
+  ".kpi-grid",
+  ".retro-grid",
+  ".action-plan",
+  ".contact-layout",
+].join(","))];
+
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+  revealItems.forEach((item, index) => {
+    item.classList.add("motion-reveal");
+    item.style.setProperty("--reveal-delay", `${(index % 3) * 60}ms`);
+  });
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -8%", threshold: 0.08 });
+  revealItems.forEach((item) => revealObserver.observe(item));
+}
 
 function closeMobileMenu() {
   mobileNav.classList.remove("open");
@@ -3164,16 +3332,57 @@ stakeholderGroups.forEach((group) => {
 renderStakeholderGroup(activeStakeholderGroup);
 
 const risks = [
-  { id: "R01", title: "小程序直播崩溃或严重卡顿", probability: 2, impact: 3, level: "高", owner: "小茹", mitigation: "提前 5 天完成压力测试；准备备用链接和群发机制；预设稳定、可信的异常页面文案。" },
-  { id: "R02", title: "直播间网络断线", probability: 1, impact: 3, level: "高", owner: "小茹", mitigation: "有线 + 无线 4G/5G 双路备份；开播前 1 小时测速；现场准备移动 WiFi。" },
-  { id: "R03", title: "IP 或厂长临时无法出镜", probability: 1, impact: 3, level: "高", owner: "运营总监", mitigation: "启动替补调度并调整出场顺序；IP 缺席时由主播承担信息传达，根据情况决定延期或替代演出。" },
-  { id: "R04", title: "直播内容卡壳或报价失误", probability: 2, impact: 2, level: "中", owner: "主播", mitigation: "为每个品项制作提词卡，标注故事、报价和话术节点；助播用计算器提示实际售价。" },
-  { id: "R05", title: "砍价内容不真实，客户不买账", probability: 1, impact: 3, level: "中", owner: "运营总监", mitigation: "彩排时引入观众反馈；出现负面弹幕后快速引导；用抽奖调节氛围并实时调整表演方式。" },
-  { id: "R06", title: "预热视频交付延期", probability: 3, impact: 3, level: "高", owner: "运营总监", mitigation: "项目启动时锁定 IP 档期；准备简版“预告的预告”；最终交付前 2 天复核进度并保留补拍缓冲。" },
-  { id: "R07", title: "销售邀约到场人数远低于目标", probability: 2, impact: 3, level: "高", owner: "销售团队", mitigation: "实时同步销售邀约到场数据，驱动紧急补量；朋友圈发布切片与现场气氛素材吸引客户进入。" },
-  { id: "R08", title: "客户收货不满意或要求退换", probability: 2, impact: 2, level: "中", owner: "销售团队", mitigation: "提前教育不同光线下的色差；锁货前质检；视频展示多种光线，并明确成品与加工品退换原则。" },
-  { id: "R09", title: "大客户匹配货品未成交", probability: 2, impact: 2, level: "中", owner: "主播", mitigation: "通过专业讲解重构客户预期；即使当场未成交，也邀请到公司看货，将关系推进到下一阶段。" },
-  { id: "R10", title: "美工物料交付延期", probability: 2, impact: 2, level: "中", owner: "小茹", mitigation: "按使用时间排序物料；先确认简易初稿再完成整稿；制作期每日跟进进度。" },
+  {
+    id: "R01", title: "小程序直播崩溃或严重卡顿。", description: "监管严格，直播系统不稳定且直播当晚流量涌入，服务商并发能力不足，导致画面卡顿、无法就进入或闪退",
+    probability: 2, impact: 3, level: "高", owner: "小茹", status: "监控中",
+    mitigation: ["提前5天练习服务商进行压力测试，确认并发能力", "准备备用链接，主链接出问题立马群发备用链接给客户", "提前设置直播系统崩溃时的页面，不要出现“访问页面有风险””访问地址不安全“等表述"],
+  },
+  {
+    id: "R02", title: "直播间网络断线。", description: "直播场地WiFi或信号不稳定，导致直播中断",
+    probability: 1, impact: 3, level: "高", owner: "小茹", status: "监控中",
+    mitigation: ["准备有线网络+无线网络4G/5G双路备份", "开播前1小时测试网络速度", "现场准备好移动WiFi设备作为第三备选"],
+  },
+  {
+    id: "R03", title: "IP或厂长临时无法出镜（生病、紧急事务）", description: "直播核心角色缺席，内容无法按计划进行",
+    probability: 1, impact: 3, level: "高", owner: "运营总监", status: "监控中",
+    mitigation: ["厂长缺席：启动替补调度方案——由另一名出场厂长紧急调换出场顺序，接手前段剧本演绎；若无法赶到，由备选厂长临时替补后续品项。", "IP缺席：根据情况判断是直播延期还是跟粉丝说明情况，带病上场，由主播作为IP嘴替，双人配合模式演出"],
+  },
+  {
+    id: "R04", title: "直播中内容表现卡壳、失误。", description: "主播、IP或厂长在直播时，出现关键信息遗漏、故事线卡壳、报价节点错误等，影响直播专业度和客户信任。",
+    probability: 2, impact: 2, level: "中", owner: "主播", status: "监控中",
+    mitigation: ["为每个品项制作提词卡，清晰标注：关键故事节点、报价节点及对应价格、重点话术提示。在上每个对应的品时，助播把提词卡放在镜头外", "上品时，助播摁计算机告诉主播实际售价作为提示"],
+  },
+  {
+    id: "R05", title: "直播内容“不真实”，客户不买账。", description: "砍价演出呈现效果太假，IP和厂长配合生硬，客户弹幕出现负面反馈",
+    probability: 1, impact: 3, level: "中", owner: "运营总监", status: "监控中",
+    mitigation: ["彩排阶段由成员作为观众，给予反馈，确保语言和情绪自然", "如果弹幕出现负面反馈的时候，迅速刷屏，将影响缩小，并且主播话术引导", "根据弹幕反馈实时调整，如果一轮砍价效果差，则及时通过抽奖调节氛围，并在抽奖间隙快速调整下一轮砍价的表演方式"],
+  },
+  {
+    id: "R06", title: "预热视频交付延期。", description: "预热视频需IP本人拍摄，若IP因公域排期冲突无法按时完成，后续预热发布、销售邀约素材准备将全部卡顿",
+    probability: 3, impact: 3, level: "高", owner: "运营总监", status: "监控中",
+    mitigation: ["项目启动阶段第一时间将预热视频拍摄排期与IP锁定，防止被其他安排挤占", "提前提醒IP：预热期的钩子吸引客户对于直播的转化，至关重要。让其理解延期会影响直播流量的积攒和对于客户的吸引力", "准备“预告的预告”应急方案：若完整素材无法在首轮交付，请IP先抽10分钟拍摄一条简版预告，仅露脸告知直播时间，确保预热启动不空窗，后续再补完整素材", "最终交付前2天再次确认进度，留有紧急补拍缓冲时间"],
+  },
+  {
+    id: "R07", title: "销售邀约到场人数远低于目标。", description: "预热了，但效果不好，场观不够，GMV无法达成",
+    probability: 2, impact: 3, level: "高", owner: "销售团队", status: "监控中",
+    mitigation: ["到场数据反馈：将每位销售的后台邀约到场数据，截图同步至群里，让销售直观感知到场率，激发紧迫感，紧急邀约", "朋友圈切片引流：实时发布直播切片和现场气氛素材，吸引客户进入直播间"],
+  },
+  {
+    id: "R08", title: "客户收货后不满意，要求退换货，或予以差评。", description: "客户在自然光下看到实物与直播间展示有差异，出现负面反馈",
+    probability: 2, impact: 2, level: "中", owner: "销售团队", status: "监控中",
+    mitigation: ["销售在直播前提前铺垫“翡翠不同光线有色差”常识", "直播中IP明确强调“自然光打视频看货”", "库存备货需质检后才可入库", "销售跟客户视频时展示不同光线下翡翠效果，并“强调成品可退换，毛坯加工后不退不换”原则，客户已知并亲自确认加工后，才送去加工"],
+  },
+  {
+    id: "R09", title: "大客户匹配货品未成交。", description: "大客户在直播间看完为其匹配的货品后仍未满意，当场未成交",
+    probability: 2, impact: 2, level: "中", owner: "主播", status: "监控中",
+    strategyLead: "该风险的核心管理目标是：不让本次未成交成为关系终点，而是将进度推入下一阶段。",
+    mitigation: ["成交推进动作：由IP向客户讲解翡翠知识、行情，打破其不合理预期，为后续铺垫基础。", "留客钩子：主动邀请未成交的大客户到公司现场看货，即使本次未成交，也增强了链接，为成交增加可能性"],
+  },
+  {
+    id: "R10", title: "美工物料交付延期。", description: "抽奖券设计延迟，导致制作延迟，导致销售邀约受影响；礼品海报等视觉物料交付迟，导致奖品预热时间短、朋友圈预热缺少素材",
+    probability: 2, impact: 2, level: "中", owner: "小茹", status: "监控中",
+    mitigation: ["根据物料使用的时间优先级来安排美工制作顺序", "先根据简易初稿沟通方向后再设计完整稿，减少需求不清晰的时间浪费", "物料制作期每天跟进进度"],
+  },
 ];
 
 const probabilityLabels = { 1: "低", 2: "中", 3: "高" };
@@ -3181,10 +3390,30 @@ const impactLabels = { 2: "中", 3: "高" };
 const riskMatrix = document.getElementById("risk-matrix");
 const riskDetail = document.getElementById("risk-detail");
 
+const htmlEscapes = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => htmlEscapes[character]);
+}
+
 function selectRisk(id) {
   const risk = risks.find((item) => item.id === id);
   document.querySelectorAll(".risk-token").forEach((button) => button.classList.toggle("active", button.dataset.id === id));
-  riskDetail.innerHTML = `<span class="risk-badge ${risk.level === "高" ? "high" : "medium"}">${risk.level}风险 · 监控中</span><h3>${risk.id} · ${risk.title}</h3><p class="detail-meta">原始等级：概率 ${probabilityLabels[risk.probability]} · 影响 ${impactLabels[risk.impact]} · 责任人 ${risk.owner}</p><div class="detail-section"><span>应对策略</span><p>${risk.mitigation}</p></div><div class="detail-section"><span>管理原则</span><strong>提前验证 · 保留备份 · 明确责任人</strong></div>`;
+  const strategyLead = risk.strategyLead ? `<p class="risk-strategy-lead">${escapeHtml(risk.strategyLead)}</p>` : "";
+  const strategyItems = risk.mitigation.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+  riskDetail.innerHTML = `
+    <div class="risk-detail-head"><span class="risk-badge ${risk.level === "高" ? "high" : "medium"}">${escapeHtml(risk.level)}风险</span><span class="risk-status">${escapeHtml(risk.status)}</span></div>
+    <h3>${escapeHtml(risk.id)} · ${escapeHtml(risk.title)}</h3>
+    <p class="risk-description">${escapeHtml(risk.description)}</p>
+    <div class="risk-meta-grid">
+      <div><span>概率</span><strong>${escapeHtml(probabilityLabels[risk.probability])}</strong></div>
+      <div><span>影响</span><strong>${escapeHtml(impactLabels[risk.impact])}</strong></div>
+      <div><span>风险等级</span><strong>${escapeHtml(risk.level)}</strong></div>
+      <div><span>责任人</span><strong>${escapeHtml(risk.owner)}</strong></div>
+    </div>
+    <div class="detail-section risk-response"><span>应对策略</span>${strategyLead}<ol>${strategyItems}</ol></div>`;
+  riskDetail.classList.remove("is-updated");
+  void riskDetail.offsetWidth;
+  riskDetail.classList.add("is-updated");
 }
 
 [
